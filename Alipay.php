@@ -64,6 +64,12 @@ class Alipay extends Component
         return $html_text;
     }
 
+    public function getVerifyReturn()
+    {
+        $alipayNotify = new AlipayNotify($this->getConfig());
+        return $alipayNotify->verifyReturn();
+    }
+
     private function getConfig()
     {
         return [
