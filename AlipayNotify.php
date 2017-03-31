@@ -128,7 +128,7 @@ class AlipayNotify {
                 $isSgin = AlipayRSA::rsaVerify($prestr, trim($this->alipay_config['alipay_public_key']), $sign);
                 break;
             case "MD5":
-                $isSgin = AlipayMD5::md5Verify($prestr, trim($this->alipay_config['key']), $sign);
+                $isSgin = AlipayMD5::md5Verify($prestr, $sign, trim($this->alipay_config['key']));
                 break;
             default :
                 $isSgin = false;

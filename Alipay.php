@@ -18,7 +18,7 @@ class Alipay extends Component
     public $refund_notify_url = ''; // 服务器异步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数,必须外网可以正常访问
     public $sign_type = 'MD5'; //签名方式
     public $input_charset = 'utf-8'; //字符编码格式 目前支持 gbk 或 utf-8
-    public $cacert = '@vendor/imxiangli/alipay/cacert.pem'; //ca证书路径地址，用于curl中ssl校验
+    public $cacert = '@vendor/imxiangli/yii2-alipay/cacert.pem'; //ca证书路径地址，用于curl中ssl校验
     public $transport = 'http'; //访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
     public $anti_phishing_key = ''; // 防钓鱼时间戳  若要使用请调用类文件submit中的query_timestamp函数
     public $exter_invoke_ip = ''; // 客户端的IP地址 非局域网的外网IP地址，如：221.0.0.1
@@ -64,12 +64,6 @@ class Alipay extends Component
         return $html_text;
     }
 
-    public function getVerifyReturn()
-    {
-        $alipayNotify = new AlipayNotify($this->getConfig());
-        return $alipayNotify->verifyReturn();
-    }
-
     private function getConfig()
     {
         return [
@@ -84,10 +78,22 @@ class Alipay extends Component
             'refund_notify_url' => $this->refund_notify_url,
             'sign_type' => $this->sign_type,
             'input_charset' => $this->input_charset,
-            'cacert' => $this->cacert,
+            'cacert' => \Yii::getAlias($this->cacert),
             'transport' => $this->transport,
             'anti_phishing_key' => $this->anti_phishing_key,
             'exter_invoke_ip' => $this->exter_invoke_ip,
         ];
+    }
+
+    public function getVerifyReturn()
+    {
+        $alipayNotify = new AlipayNotify($this->getConfig());
+        return $alipayNotify->verifyReturn();
+    }
+
+    public function getVerifyNotify()
+    {
+        $alipayNotify = new AlipayNotify($this->getConfig());
+        return $alipayNotify->verifyNotify();
     }
 }
